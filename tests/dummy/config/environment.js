@@ -22,8 +22,7 @@ module.exports = function(environment) {
       fallbackLng: 'en',
       backend: {
         loadPath: 'locales/{{ns}}/{{lng}}.json'
-      },
-      debug: true
+      }
     },
 
     APP: {
