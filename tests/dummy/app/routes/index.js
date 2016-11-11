@@ -21,6 +21,10 @@ export default Ember.Route.extend(I18nMixin, {
 
     changeCount(count) {
       this.get('countObj').set('count', count);
+    },
+
+    setDebug(value) {
+      this.get('i18n').set('debug', value);
     }
   }
 });

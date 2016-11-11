@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import config from '../config/environment';
 
+import debugPostprocessor from 'ember-i18next/postprocessors/debug';
+
 /**
  * A service that exposes functionality from i18next.
  */
@@ -160,14 +162,21 @@ const I18nService = Ember.Service.extend({
    *
    * @param {String} path - an string that specifies the translation lookup key.
    *   Required.
-   * @param {Object} values - an object that specifies values to substitute into
+   * @param {Object} params - an object that specifies values to substitute into
    *   the translation for the specified path. Optional.
    *
    * @return Localized text.
    */
-  t(path, values) {
+  t(path, params) {
+    const debug = this.get('debug');
     const i18next = this.get('i18next');
-    return i18next.t(path, values);
+
+    let extendedParams = params;
+    if (debug) {
+      extendedParams = Object.assign({}, { postProcess: 'ember-i18next-debug' }, params);
+    }
+
+    return i18next.t(path, extendedParams);
   },
 
   /**
@@ -273,6 +282,7 @@ const I18nService = Ember.Service.extend({
       //         dynamically?
       //
       i18next
+        .use(debugPostprocessor)
         .use(window.i18nextXHRBackend)
         .init(options, (err) => {
          if (err) {

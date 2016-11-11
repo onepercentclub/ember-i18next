@@ -67,3 +67,13 @@ test('Markup is allowed in translation keys but substitutions are escaped', func
       '<script> tag in content should be escaped and not be rendered');
   });
 });
+
+test('Enabling debug mode', function(assert) {
+  visit('/');
+  click('a#enable-debug');
+  click('a#change-language-en');
+
+  andThen(() => {
+    assert.equal(find('div#translated').text(), '(test) test output', 'enabling debug mode prepends key name');
+  });
+});
